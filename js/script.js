@@ -1,114 +1,353 @@
-// 深色模式切換
-const darkModeToggle = document.getElementById('darkmode-toggle');
-const body = document.body;
+// Enhanced Modern Portfolio Interactions
 
-darkModeToggle.addEventListener('click', () => {
-    body.classList.toggle('dark-mode');
-    darkModeToggle.textContent = body.classList.contains('dark-mode') ? '🌞' : '🌓';
-});
+// Utility functions
+const debounce = (func, wait) => {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+};
 
-// 改進縮放控制
-const zoomControl = document.getElementById('zoom-control');
-zoomControl.addEventListener('input', (e) => {
-    const zoomLevel = e.target.value;
-    document.documentElement.style.setProperty('--zoom-level', `${zoomLevel}%`);
-    document.body.style.zoom = `${zoomLevel}%`;
-    // 備用方案
-    if (typeof document.body.style.zoom === 'undefined') {
-        document.body.style.transform = `scale(${zoomLevel / 100})`;
-    }
-});
-
-// 改進主題顏色控制
-const themeColor = document.getElementById('theme-color');
-themeColor.addEventListener('input', (e) => {
-    const color = e.target.value;
-    document.documentElement.style.setProperty('--theme-color', color);
-    
-    // 更新相關元素的顏色
-    document.querySelectorAll('.theme-colored').forEach(el => {
-        el.style.color = color;
-    });
-    
-    // 更新漸變背景
-    document.querySelectorAll('.gradient-bg').forEach(el => {
-        el.style.background = `linear-gradient(45deg, ${color}15, ${color}30)`;
-    });
-});
-
-// 增加字體大小控制
-const fontSizeControl = document.getElementById('font-size-control');
-fontSizeControl.addEventListener('input', (e) => {
-    document.documentElement.style.setProperty('--base-font-size', `${e.target.value}px`);
-});
-
-// 動畫速度控制
-const animationSpeed = document.getElementById('animation-speed');
-animationSpeed.addEventListener('change', (e) => {
-    document.documentElement.style.setProperty('--animation-speed', e.target.value);
-});
-
-// 頁腳主題切換
-const footerTheme = document.getElementById('footer-theme');
-footerTheme.addEventListener('change', (e) => {
-    const footer = document.querySelector('.site-footer');
-    footer.className = 'site-footer ' + e.target.value;
-});
-
-// 滑鼠hover效果
-document.querySelectorAll('section').forEach(section => {
-    section.addEventListener('mouseenter', () => {
-        section.style.transform = 'scale(1.01)';
-        section.style.transition = 'transform 0.3s ease';
-    });
-    
-    section.addEventListener('mouseleave', () => {
-        section.style.transform = 'scale(1)';
-    });
-});
-
-// 圖片hover效果
-document.querySelectorAll('img').forEach(img => {
-    img.addEventListener('mouseenter', () => {
-        img.style.filter = 'brightness(1.1)';
-        img.style.transition = 'all 0.3s ease';
-    });
-    
-    img.addEventListener('mouseleave', () => {
-        img.style.filter = 'brightness(1)';
-    });
-});
-
-// 平滑捲動
+// Enhanced smooth scrolling with easing
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+            
+            // Add focus for accessibility
+            target.focus();
+        }
     });
 });
 
-// 滾動進入動畫
-function handleScrollAnimation() {
-    const sections = document.querySelectorAll('section');
-    
-    sections.forEach(section => {
-        section.classList.add('fade-in-section');
+// Enhanced intersection observer for scroll animations
+const observerOptions = {
+    root: null,
+    rootMargin: '-10% 0px -10% 0px',
+    threshold: [0, 0.1, 0.5, 1]
+};
+
+const animateOnScroll = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0) scale(1)';
+            entry.target.classList.add('animate-in');
+            
+            // Add stagger animation for child elements
+            const children = entry.target.querySelectorAll('.animate-child');
+            children.forEach((child, index) => {
+                setTimeout(() => {
+                    child.style.opacity = '1';
+                    child.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        }
     });
+}, observerOptions);
 
-    const fadeInObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-            }
+// Apply animation observer to sections
+document.querySelectorAll('section').forEach(section => {
+    section.style.opacity = '0';
+    section.style.transform = 'translateY(30px) scale(0.98)';
+    section.style.transition = 'opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+    animateOnScroll.observe(section);
+});
+
+// Enhanced parallax effect for hero section
+const parallaxElements = document.querySelectorAll('.about-image, .creative-title');
+window.addEventListener('scroll', debounce(() => {
+    const scrolled = window.pageYOffset;
+    const parallaxRate = scrolled * -0.3;
+    
+    parallaxElements.forEach(element => {
+        element.style.transform = `translateY(${parallaxRate}px)`;
+    });
+}, 10));
+
+// Advanced header scroll effect
+let lastScrollTop = 0;
+const header = document.querySelector('header');
+
+window.addEventListener('scroll', debounce(() => {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (scrollTop > lastScrollTop && scrollTop > 100) {
+        // Scrolling down
+        header.style.transform = 'translateY(-100%)';
+        header.style.opacity = '0.9';
+    } else {
+        // Scrolling up
+        header.style.transform = 'translateY(0)';
+        header.style.opacity = '1';
+    }
+    
+    // Add backdrop blur based on scroll
+    const blurAmount = Math.min(scrollTop / 100, 1);
+    header.style.backdropFilter = `blur(${20 + blurAmount * 10}px) saturate(${180 + blurAmount * 20}%)`;
+    
+    lastScrollTop = scrollTop;
+}, 10));
+
+// Enhanced back to top button
+const backToTopButton = document.getElementById('back-to-top');
+if (backToTopButton) {
+    window.addEventListener('scroll', debounce(() => {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('visible');
+        } else {
+            backToTopButton.classList.remove('visible');
+        }
+    }, 100));
+    
+    backToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
-    }, { threshold: 0.1 });
-
-    document.querySelectorAll('.fade-in-section').forEach(section => {
-        fadeInObserver.observe(section);
     });
 }
+
+// Enhanced image gallery functionality
+function changeVideoImage(src) {
+    const mainImage = document.getElementById('mainVideoImage');
+    if (mainImage) {
+        // Add loading animation
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+        }, 150);
+        
+        // Update active thumbnail
+        document.querySelectorAll('.thumbnail-item img').forEach(thumb => {
+            thumb.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.classList.add('active');
+            }
+        });
+    }
+}
+
+function changeUIImage(src) {
+    const mainImage = document.getElementById('mainUIImage');
+    if (mainImage) {
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+        }, 150);
+        
+        document.querySelectorAll('.thumbnail-item img').forEach(thumb => {
+            thumb.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.classList.add('active');
+            }
+        });
+    }
+}
+
+function changeMainImage(src) {
+    const mainImage = document.getElementById('mainGTAImage');
+    if (mainImage) {
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+        }, 150);
+        
+        document.querySelectorAll('.thumbnail-item img').forEach(thumb => {
+            thumb.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.classList.add('active');
+            }
+        });
+    }
+}
+
+function changeMainOverviewImage(src) {
+    const mainImage = document.getElementById('mainOverviewImage');
+    if (mainImage) {
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+        }, 150);
+        
+        document.querySelectorAll('.thumbnail-item img').forEach(thumb => {
+            thumb.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.classList.add('active');
+            }
+        });
+    }
+}
+
+function changePropertyTycoonImage(src) {
+    const mainImage = document.getElementById('mainPropertyTycoonImage');
+    if (mainImage) {
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+        }, 150);
+        
+        document.querySelectorAll('.thumbnail-item img').forEach(thumb => {
+            thumb.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.classList.add('active');
+            }
+        });
+    }
+}
+
+function changeAnimationImage(src) {
+    const mainImage = document.getElementById('mainAnimationImage');
+    if (mainImage) {
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+        }, 150);
+        
+        document.querySelectorAll('.thumbnail-item img').forEach(thumb => {
+            thumb.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.classList.add('active');
+            }
+        });
+    }
+}
+
+// Enhanced hover effects for cards
+document.querySelectorAll('section').forEach(section => {
+    section.addEventListener('mouseenter', () => {
+        section.style.transform = 'translateY(-12px) scale(1.01)';
+        section.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+    });
+    
+    section.addEventListener('mouseleave', () => {
+        section.style.transform = 'translateY(0) scale(1)';
+    });
+});
+
+// Enhanced image hover effects with tilt
+document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('mouseenter', (e) => {
+        e.target.style.filter = 'brightness(1.1) saturate(1.1)';
+        e.target.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+        e.target.style.transform = 'scale(1.05) rotate(1deg)';
+    });
+    
+    img.addEventListener('mouseleave', (e) => {
+        e.target.style.filter = 'brightness(1) saturate(1)';
+        e.target.style.transform = 'scale(1) rotate(0deg)';
+    });
+});
+
+// Mouse cursor enhancement
+const cursor = document.createElement('div');
+cursor.className = 'custom-cursor';
+cursor.style.cssText = `
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, var(--theme-color), var(--secondary-color));
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    opacity: 0;
+    mix-blend-mode: difference;
+`;
+document.body.appendChild(cursor);
+
+document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX - 10 + 'px';
+    cursor.style.top = e.clientY - 10 + 'px';
+    cursor.style.opacity = '1';
+});
+
+document.addEventListener('mouseleave', () => {
+    cursor.style.opacity = '0';
+});
+
+// Enhanced clickable elements cursor effect
+document.querySelectorAll('a, button, .thumbnail-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'scale(2)';
+        cursor.style.background = 'linear-gradient(135deg, var(--accent-color), var(--theme-color))';
+    });
+    
+    el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'scale(1)';
+        cursor.style.background = 'linear-gradient(135deg, var(--theme-color), var(--secondary-color))';
+    });
+});
+
+// Performance optimization: RAF for smooth animations
+let ticking = false;
+
+function updateAnimations() {
+    // Update any continuous animations here
+    ticking = false;
+}
+
+function requestTick() {
+    if (!ticking) {
+        requestAnimationFrame(updateAnimations);
+        ticking = true;
+    }
+}
+
+// Initialize animations on load
+document.addEventListener('DOMContentLoaded', () => {
+    // Add entrance animations
+    document.body.style.opacity = '0';
+    setTimeout(() => {
+        document.body.style.transition = 'opacity 0.5s ease';
+        document.body.style.opacity = '1';
+    }, 100);
+    
+    // Initialize all gallery images
+    document.querySelectorAll('.thumbnail-item img').forEach(img => {
+        img.addEventListener('click', () => {
+            img.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                img.style.transform = 'scale(1)';
+            }, 150);
+        });
+    });
+      console.log('🎨 Enhanced Portfolio Loaded Successfully!');
+});
 
 // 滑鼠跟隨效果
 function createMouseFollower() {
@@ -384,7 +623,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function changeMainImage(src) {
-    const mainImage = document.querySelector('#mainGTAImage');
+    const mainImage = document.getElementById('mainGTAImage');
     if (mainImage) mainImage.src = src;
     
     // Update active thumbnail
@@ -423,7 +662,7 @@ function changeMainModelImage(src, modelId) {
 
 // Function to change video editing image
 function changeVideoImage(src) {
-    const mainImage = document.querySelector('#mainVideoImage');
+    const mainImage = document.getElementById('mainVideoImage');
     if (mainImage) mainImage.src = src;
     
     // Update active thumbnail
@@ -525,5 +764,343 @@ document.addEventListener('DOMContentLoaded', () => {
         thumbnails.forEach(thumb => {
             thumb.addEventListener('click', () => changeMainModelImage(thumb.src, index + 1));
         });
+    });
+});
+
+// Dynamic Image Sizing System
+class ImageSizeController {
+    constructor() {
+        this.sizes = ['small', 'medium', 'large', 'wide', 'square', 'portrait', 'auto'];
+        this.sizeLabels = {
+            small: 'S',
+            medium: 'M', 
+            large: 'L',
+            wide: 'W',
+            square: '□',
+            portrait: 'P',
+            auto: 'A'
+        };
+        this.currentSizes = new Map();
+        this.init();
+    }
+
+    init() {
+        // Convert existing main-image containers to the new system
+        document.querySelectorAll('.main-image').forEach(container => {
+            this.setupImageContainer(container);
+        });
+    }
+
+    setupImageContainer(container, defaultSize = 'medium') {
+        const id = container.id || `img-container-${Date.now()}`;
+        container.id = id;
+        
+        // Add container classes
+        container.classList.add('image-container');
+        container.classList.add(`size-${defaultSize}`);
+        this.currentSizes.set(id, defaultSize);
+
+        // Create size controls
+        const sizeControls = document.createElement('div');
+        sizeControls.className = 'size-controls';
+        
+        this.sizes.forEach(size => {
+            const btn = document.createElement('button');
+            btn.className = 'size-btn';
+            btn.textContent = this.sizeLabels[size];
+            btn.title = `Switch to ${size} size`;
+            if (size === defaultSize) btn.classList.add('active');
+            
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.changeSize(id, size);
+            });
+            
+            sizeControls.appendChild(btn);
+        });
+
+        // Create size indicator
+        const sizeIndicator = document.createElement('div');
+        sizeIndicator.className = 'size-indicator';
+        sizeIndicator.textContent = this.getSizeDisplayName(defaultSize);
+
+        // Add controls to container
+        container.appendChild(sizeControls);
+        container.appendChild(sizeIndicator);
+
+        // Auto-detect optimal size based on image dimensions
+        const img = container.querySelector('img');
+        if (img) {
+            this.autoDetectSize(container, img);
+        }
+    }
+
+    changeSize(containerId, newSize) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        const oldSize = this.currentSizes.get(containerId);
+        
+        // Remove old size class
+        container.classList.remove(`size-${oldSize}`);
+        
+        // Add new size class
+        container.classList.add(`size-${newSize}`);
+        
+        // Update current size
+        this.currentSizes.set(containerId, newSize);
+
+        // Update active button
+        const buttons = container.querySelectorAll('.size-btn');
+        buttons.forEach((btn, index) => {
+            btn.classList.toggle('active', this.sizes[index] === newSize);
+        });
+
+        // Update indicator
+        const indicator = container.querySelector('.size-indicator');
+        if (indicator) {
+            indicator.textContent = this.getSizeDisplayName(newSize);
+        }
+
+        // Add animation effect
+        container.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+            container.style.transform = 'scale(1)';
+        }, 150);
+    }
+
+    autoDetectSize(container, img) {
+        const detectOptimalSize = () => {
+            const aspectRatio = img.naturalWidth / img.naturalHeight;
+            let optimalSize = 'medium';
+
+            if (aspectRatio > 2.2) {
+                optimalSize = 'wide';
+            } else if (aspectRatio > 1.6) {
+                optimalSize = 'large';
+            } else if (aspectRatio > 1.2) {
+                optimalSize = 'medium';
+            } else if (aspectRatio > 0.9) {
+                optimalSize = 'square';
+            } else if (aspectRatio < 0.8) {
+                optimalSize = 'portrait';
+            }
+
+            // Check image dimensions
+            if (img.naturalWidth < 400 || img.naturalHeight < 300) {
+                optimalSize = 'small';
+            }
+
+            this.changeSize(container.id, optimalSize);
+        };
+
+        if (img.complete) {
+            detectOptimalSize();
+        } else {
+            img.addEventListener('load', detectOptimalSize);
+        }
+    }
+
+    getSizeDisplayName(size) {
+        const names = {
+            small: 'Small',
+            medium: 'Medium',
+            large: 'Large', 
+            wide: 'Wide',
+            square: 'Square',
+            portrait: 'Portrait',
+            auto: 'Auto'
+        };
+        return names[size] || size;
+    }
+
+    // Method to add new image containers dynamically
+    addImageContainer(container, defaultSize = 'medium') {
+        this.setupImageContainer(container, defaultSize);
+    }
+}
+
+// Initialize the image size controller
+const imageSizeController = new ImageSizeController();
+
+// Enhanced image change functions with size detection
+function changeVideoImageWithSize(src) {
+    const mainImage = document.getElementById('mainVideoImage');
+    if (mainImage) {
+        // Add loading animation
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+            
+            // Auto-detect optimal size for new image
+            imageSizeController.autoDetectSize(mainImage.parentElement, mainImage);
+        }, 150);
+        
+        // Update active thumbnail
+        document.querySelectorAll('#video-editing .thumbnail-item img').forEach(thumb => {
+            thumb.parentElement.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.parentElement.classList.add('active');
+            }
+        });
+    }
+}
+
+function changeUIImageWithSize(src) {
+    const mainImage = document.getElementById('mainUIImage');
+    if (mainImage) {
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+            
+            // Auto-detect optimal size for new image
+            imageSizeController.autoDetectSize(mainImage.parentElement, mainImage);
+        }, 150);
+        
+        document.querySelectorAll('#ui-design .thumbnail-item img').forEach(thumb => {
+            thumb.parentElement.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.parentElement.classList.add('active');
+            }
+        });
+    }
+}
+
+// Additional sizing-aware image change functions
+function changePropertyTycoonImageWithSize(src) {
+    const mainImage = document.getElementById('mainPropertyTycoonImage');
+    if (mainImage) {
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+            
+            // Auto-detect optimal size for new image
+            imageSizeController.autoDetectSize(mainImage.parentElement, mainImage);
+        }, 150);
+        
+        document.querySelectorAll('#scene-design .thumbnail-item img').forEach(thumb => {
+            thumb.parentElement.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.parentElement.classList.add('active');
+            }
+        });
+    }
+}
+
+function changeMainImageWithSize(src) {
+    const mainImage = document.getElementById('mainGTAImage');
+    if (mainImage) {
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+            
+            // Auto-detect optimal size for new image
+            imageSizeController.autoDetectSize(mainImage.parentElement, mainImage);
+        }, 150);
+        
+        document.querySelectorAll('#scene-design-vm .thumbnail-item img').forEach(thumb => {
+            thumb.parentElement.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.parentElement.classList.add('active');
+            }
+        });
+    }
+}
+
+function changeAnimationImageWithSize(src) {
+    const mainImage = document.getElementById('mainAnimationImage');
+    if (mainImage) {
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+            
+            // Auto-detect optimal size for new image
+            imageSizeController.autoDetectSize(mainImage.parentElement, mainImage);
+        }, 150);
+        
+        document.querySelectorAll('#animation .thumbnail-item img').forEach(thumb => {
+            thumb.parentElement.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.parentElement.classList.add('active');
+            }
+        });
+    }
+}
+
+function changeMainOverviewImageWithSize(src) {
+    const mainImage = document.getElementById('mainOverviewImage');
+    if (mainImage) {
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+            
+            // Auto-detect optimal size for new image
+            imageSizeController.autoDetectSize(mainImage.parentElement, mainImage);
+        }, 150);
+        
+        document.querySelectorAll('#modeling .thumbnail-item img').forEach(thumb => {
+            thumb.parentElement.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.parentElement.classList.add('active');
+            }
+        });
+    }
+}
+
+function changeGameImageWithSize(src) {
+    const mainImage = document.getElementById('mainGameImage');
+    if (mainImage) {
+        // Add loading animation
+        mainImage.style.opacity = '0.5';
+        mainImage.style.transform = 'scale(0.95)';
+        
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = '1';
+            mainImage.style.transform = 'scale(1)';
+            
+            // Auto-detect optimal size for new image
+            imageSizeController.autoDetectSize(mainImage.parentElement, mainImage);
+        }, 150);
+        
+        // Update active thumbnail
+        document.querySelectorAll('#scene-design .thumbnail-item img').forEach(thumb => {
+            thumb.classList.remove('active');
+            if (thumb.src === src) {
+                thumb.classList.add('active');
+            }
+        });
+    }
+}
+
+// Initialize size controllers for all existing image containers when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // Setup any additional image containers that weren't caught in the initial setup
+    document.querySelectorAll('.main-image:not(.image-container)').forEach(container => {
+        imageSizeController.setupImageContainer(container);
     });
 });

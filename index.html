@@ -65,18 +65,17 @@
                     <div class="main-image">
                         <img id="mainVideoImage" src="images/video_editing_main.jpg" alt="Video Editing Main">
                     </div>
-                    <div class="thumbnails-row">
-                        <div class="thumbnail-item">
-                            <img src="images/video_editing_main.jpg" alt="Main Video" onclick="changeVideoImage(this.src)" class="active">
+                    <div class="thumbnails-row">                        <div class="thumbnail-item">
+                            <img src="images/video_editing_main.jpg" alt="Main Video" onclick="changeVideoImageWithSize(this.src)" class="active">
                         </div>
                         <div class="thumbnail-item">
-                            <img src="images/video_editing_timeline.png" alt="Timeline" onclick="changeVideoImage(this.src)">
+                            <img src="images/video_editing_timeline.png" alt="Timeline" onclick="changeVideoImageWithSize(this.src)">
                         </div>
                         <div class="thumbnail-item">
-                            <img src="images/video_editing_wave.png" alt="Waveform" onclick="changeVideoImage(this.src)">
+                            <img src="images/video_editing_wave.png" alt="Waveform" onclick="changeVideoImageWithSize(this.src)">
                         </div>
                         <div class="thumbnail-item">
-                            <img src="images/video_editing_vectorscope.png" alt="Vectorscope" onclick="changeVideoImage(this.src)">
+                            <img src="images/video_editing_vectorscope.png" alt="Vectorscope" onclick="changeVideoImageWithSize(this.src)">
                         </div>
                     </div>
                 </div>
@@ -86,9 +85,8 @@
                         <li><b>Designed for a larger TV program about Dr Pat’s allotment (2 mins 30 seconds)</b>.</li>
                         <li>This involved choosing <b>footage, cutting, adding custom music</b>, incorporating <b>graphics</b>, and
                             <b>colour</b> grading to tell a compelling story.
-                        </li>
-                        <li>This project allowed me to apply my technical skills in video editing and storytelling, resulting in a
-                            professional-quality segment suitable for broadcast.
+                        </li>                        <li>This creative endeavor brought together visual storytelling and cinematic techniques, crafting a
+                            professional-quality broadcast segment that captures the essence of agricultural passion.
                         </li>
                     </ul>
                 </div>
@@ -100,7 +98,7 @@
             </div>
             <div class="filming-content">
                 <h3>Group Video Project: PAPA - Personal Assistant Personality App</h3>
-                <p>Created a video production with my group mates for an innovative fictional mobile app project that personalizes AI assistants. The project involved comprehensive planning and execution across multiple filming sessions.</p>
+                <p>Created a video production with my group mates for an innovative fictional mobile app project that personalizes AI assistants. The project involved creative planning and artistic execution across multiple dynamic filming sessions.</p>
                 <div class="filming-grid">
                     <div class="filming-item">
                         <img src="images/filming_1.jpg" alt="Studio Filming">
@@ -150,15 +148,14 @@
             <div class="main-image">
                 <img id="mainUIImage" src="images/ui_design_1.png" alt="UI Design Main">
             </div>
-            <div class="thumbnails-row">
-                <div class="thumbnail-item">
-                    <img src="images/ui_design_1.png" alt="Main UI" onclick="changeUIImage(this.src)" class="active">
+            <div class="thumbnails-row">                <div class="thumbnail-item">
+                    <img src="images/ui_design_1.png" alt="Main UI" onclick="changeUIImageWithSize(this.src)" class="active">
                 </div>
                 <div class="thumbnail-item">
-                    <img src="images/ui_design_2.png" alt="Content Management" onclick="changeUIImage(this.src)">
+                    <img src="images/ui_design_2.png" alt="Content Management" onclick="changeUIImageWithSize(this.src)">
                 </div>
                 <div class="thumbnail-item">
-                    <img src="images/ui_design_3.png" alt="Service Management" onclick="changeUIImage(this.src)">
+                    <img src="images/ui_design_3.png" alt="Service Management" onclick="changeUIImageWithSize(this.src)">
                 </div>
             </div>
         </div>
@@ -263,20 +260,72 @@
                     View Project on GitHub <i class="fab fa-github"></i>
                 </a>
             </div>
-        </div>
-        <div class="game-gallery">
-            <div class="main-screenshots">
-                <img src="images/game_screenshot1.png" alt="Fall Guin Gameplay 1">
-                <img src="images/game_screenshot2.png" alt="Fall Guin Gameplay 2">
-                <img src="images/game_screenshot3.png" alt="Fall Guin Environment">
+        </div>        <div class="game-gallery">
+            <div class="main-image">
+                <img id="mainGameImage" src="images/game_screenshot1.png" alt="Fall Guin Gameplay">
             </div>
-            <div class="gameplay-preview">
-                <img src="images/gameplay_gif1.gif" alt="Gameplay Animation 1">
-                <img src="images/gameplay_gif2.gif" alt="Gameplay Animation 2">
+            <div class="thumbnails-row">
+                <div class="thumbnail-item">
+                    <img src="images/game_screenshot1.png" alt="Fall Guin Gameplay 1" onclick="changeGameImageWithSize(this.src)" class="active">
+                </div>
+                <div class="thumbnail-item">
+                    <img src="images/game_screenshot2.png" alt="Fall Guin Gameplay 2" onclick="changeGameImageWithSize(this.src)">
+                </div>
+                <div class="thumbnail-item">
+                    <img src="images/game_screenshot3.png" alt="Fall Guin Environment" onclick="changeGameImageWithSize(this.src)">
+                </div>
+                <div class="thumbnail-item">
+                    <img src="images/gameplay_gif1.gif" alt="Gameplay Animation 1" onclick="changeGameImageWithSize(this.src)">
+                </div>
+                <div class="thumbnail-item">
+                    <img src="images/gameplay_gif2.gif" alt="Gameplay Animation 2" onclick="changeGameImageWithSize(this.src)">
+                </div>
             </div>
         </div>
-    </div> <!-- Add this missing closing tag -->
+    </div>
 </section>
+        <section id="software-engineering" class="scene-design-section">
+            <h2>Y2 Software Engineering Project</h2>
+            <p>Property Tycoon - A Pygame & Nuitka Game</p>
+            <div class="video-content">
+                <div class="video-gallery">                    <div class="main-image">
+                        <img id="mainPropertyTycoonImage" src="images/Software-Engineering-Project (1).gif" alt="Software Engineering Project Gameplay">
+                    </div>                    <div class="thumbnails-row">
+                        <div class="thumbnail-item">
+                            <img src="images/Software-Engineering-Project (1).gif" alt="Software Engineering Project Animation" onclick="changePropertyTycoonImageWithSize(this.src)" class="active">
+                        </div>
+                        <div class="thumbnail-item">
+                            <img src="images/Software-Engineering-Project (2).png" alt="Software Engineering Project Screenshot 2" onclick="changePropertyTycoonImageWithSize(this.src)">
+                        </div>
+                        <div class="thumbnail-item">
+                            <img src="images/Software-Engineering-Project (3).png" alt="Software Engineering Project Screenshot 3" onclick="changePropertyTycoonImageWithSize(this.src)">
+                        </div>
+                        <div class="thumbnail-item">
+                            <img src="images/Software-Engineering-Project (4).png" alt="Software Engineering Project Screenshot 4" onclick="changePropertyTycoonImageWithSize(this.src)">
+                        </div>
+                        <div class="thumbnail-item">
+                            <img src="images/Software-Engineering-Project (5).png" alt="Software Engineering Project Screenshot 5" onclick="changePropertyTycoonImageWithSize(this.src)">
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="video-description">
+                    <p>A collaborative creative project to develop "Property Tycoon," a board game brought to life through Python programming with the Pygame library. The project showcases the fusion of traditional game design with modern technology, compiled to native machine code using Nuitka for optimal performance.</p>
+                    <ul>
+                        <li><b>Agile Development:</b> Adopted Agile methodologies for effective team collaboration and iterative development.</li>
+                        <li><b>AI Player:</b> Implemented a foundational AI player, providing a solid base for future enhancements.</li>
+                        <li><b>Creative Documentation:</b> Crafted extensive Sphinx-themed online documentation with visual storytelling, covering both conceptual design and technical implementation.</li>
+                        <li><b>Performance Optimization:</b> Utilized Nuitka to compile the Python code, boosting performance significantly.</li>                    </ul>
+                    <p>This project showcased the creative application of Agile methodologies in game development, blending traditional board game mechanics with modern Python programming. The development process emphasized collaborative creativity and innovative problem-solving through iterative design.</p>
+                </div>
+                
+                <div class="video-link">
+                    <a href="https://github.com/dundd2/Y2-Software-Engineering-Project" target="_blank" class="view-project">
+                        View Project on GitHub <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
 
         <section id="scene-design-vm" class="scene-design-vm-section">
     <h2>GTA V Mods</h2>
@@ -287,23 +336,22 @@
                 <img id="mainGTAImage" src="images/GTAprius (4).webp" alt="GTA Mod Main Preview">
             </div>
             <div class="thumbnails-row">
-                <div class="thumbnail-item">
-                    <img src="images/GTAprius (1).webp" alt="GTA Mod Preview 1" onclick="changeMainImage(this.src)">
+                <div class="thumbnail-item">                    <img src="images/GTAprius (1).webp" alt="GTA Mod Preview 1" onclick="changeMainImageWithSize(this.src)">
                 </div>
                 <div class="thumbnail-item">
-                    <img src="images/GTAprius (2).png" alt="GTA Mod Preview 2" onclick="changeMainImage(this.src)">
+                    <img src="images/GTAprius (2).png" alt="GTA Mod Preview 2" onclick="changeMainImageWithSize(this.src)">
                 </div>
                 <div class="thumbnail-item">
-                    <img src="images/GTAprius (3).png" alt="GTA Mod Preview 3" onclick="changeMainImage(this.src)">
+                    <img src="images/GTAprius (3).png" alt="GTA Mod Preview 3" onclick="changeMainImageWithSize(this.src)">
                 </div>
                 <div class="thumbnail-item">
-                    <img src="images/GTAprius (4).webp" alt="GTA Mod Preview 4" onclick="changeMainImage(this.src)" class="active">
+                    <img src="images/GTAprius (4).webp" alt="GTA Mod Preview 4" onclick="changeMainImageWithSize(this.src)" class="active">
                 </div>
                 <div class="thumbnail-item">
-                    <img src="images/GTAprius (5).png" alt="GTA Mod Preview 5" onclick="changeMainImage(this.src)">
+                    <img src="images/GTAprius (5).png" alt="GTA Mod Preview 5" onclick="changeMainImageWithSize(this.src)">
                 </div>
                 <div class="thumbnail-item">
-                    <img src="images/GTAprius (6).png" alt="GTA Mod Preview 6" onclick="changeMainImage(this.src)">
+                    <img src="images/GTAprius (6).png" alt="GTA Mod Preview 6" onclick="changeMainImageWithSize(this.src)">
                 </div>
             </div>
         </div>
@@ -324,6 +372,42 @@
         </div>
     </div>
 </section>
+
+        <!-- ==================================================== -->
+        <!--      NEW SECTION: Y2 3D Modelling & Animation        -->
+        <!-- ==================================================== -->
+        <section id="animation-project" class="modeling-section">
+            <h2>Y2 3D Modelling & Animation</h2>
+            <p>Cinema 4D Character Animation & Foundational Principles</p>
+            <div class="video-content">
+                <div class="video-gallery">                    <div class="main-image">
+                        <img id="mainAnimationImage" src="images/Y2 3D Modelling & Animation lamb.png" alt="3D Modelling Lamb Animation">
+                    </div>                    <div class="thumbnails-row">
+                        <div class="thumbnail-item">
+                            <img src="images/Y2 3D Modelling & Animation lamb.png" alt="3D Modelling Lamb Animation" onclick="changeAnimationImageWithSize(this.src)" class="active">
+                        </div>
+                        <div class="thumbnail-item">
+                            <img src="images/Y2 3D Modelling & Animationweek7.png" alt="3D Modelling Week 7 Project" onclick="changeAnimationImageWithSize(this.src)">
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="video-description">
+                    <h4>Creative Elements</h4>
+                    <ul>
+                        <li><b>Lamp Character Animation:</b> A 30-second character performance featuring a rigged lamp that portrays emotion while jumping over tables.</li>
+                        <li><b>Bouncing Ball Animation:</b> A foundational piece exploring core animation principles like squash and stretch, timing, and spacing through playful movement.</li>
+                        <li><b>Pre-production:</b> Developed detailed storyboards and video acting references to plan the animation sequence and timing effectively.</li>                    </ul>
+                    <p>This creative endeavor explored the art of bringing inanimate objects to life through character animation. The project combined technical craft with artistic expression, focusing on storytelling through movement and emotion. The detailed pre-production work showcases a deep understanding of the creative process from concept to final animation.</p>
+                </div>
+                
+                <div class="video-link">
+                    <a href="https://github.com/dundd2/Y2-3D-Modelling-and-Animation-Assignments-2" target="_blank" class="view-project">
+                        View Project on GitHub <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
 
         <section id="ml-award" class="ml-award-section">
     <h2>Machine Learning Creative Solution Award 2023-2024</h2>
@@ -357,14 +441,13 @@
                 <img id="mainOverviewImage" src="images/3d_models_overview1.png" alt="3D Models Overview" class="img-responsive">
             </div>
             <div class="thumbnails-row">
-                <div class="thumbnail-item">
-                    <img src="images/3d_models_overview1.png" alt="Overview 1" onclick="changeMainOverviewImage(this.src)" class="active">
+                <div class="thumbnail-item">                    <img src="images/3d_models_overview1.png" alt="Overview 1" onclick="changeMainOverviewImageWithSize(this.src)" class="active">
                 </div>
                 <div class="thumbnail-item">
-                    <img src="images/3d_models_overview2.png" alt="Overview 2" onclick="changeMainOverviewImage(this.src)">
+                    <img src="images/3d_models_overview2.png" alt="Overview 2" onclick="changeMainOverviewImageWithSize(this.src)">
                 </div>
                 <div class="thumbnail-item">
-                    <img src="images/3d_models_overview3.png" alt="Overview 3" onclick="changeMainOverviewImage(this.src)">
+                    <img src="images/3d_models_overview3.png" alt="Overview 3" onclick="changeMainOverviewImageWithSize(this.src)">
                 </div>
             </div>
         </div>
@@ -515,17 +598,9 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 Duncan Law. All rights reserved.</p>
+            <p>© 2025 Duncan Law. All rights reserved.</p>
         </div>
-    </footer>
-    <button id="back-to-top" class="back-to-top" aria-label="Back to Top">↑</button>
+    </footer>    <button id="back-to-top" class="back-to-top" aria-label="Back to Top">↑</button>
 
-    <!-- Image Modal Structure -->
-    <div class="image-modal hidden">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <img src="" alt="Enlarged Image">
-        </div>
-    </div>
 </body>
 </html>
